@@ -19,9 +19,9 @@ Swagger for the API (when deployed): `{your-deployed-origin}/docs`
 
 ## YouTube demo video
 
-**Paste the link to your walkthrough/demo video.**
 
-- **Demo:** *[https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)*
+
+- https://youtu.be/rhP52zq-ZOs?si=clxJfFYBrLzi5aLi
 
 ---
 
