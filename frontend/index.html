@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Chat - Чат Приложение</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Левая панель: Пользователи -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h1>Vibe Chat</h1>
+                <p class="subtitle">Виб Кодинг</p>
+            </div>
+
+            <!-- Форма создания пользователя -->
+            <div class="create-user-form">
+                <h3>Создать пользователя</h3>
+                <input type="text" id="newUsername" placeholder="Имя пользователя" maxlength="50">
+                <input type="email" id="newEmail" placeholder="Email" maxlength="100">
+                <button onclick="createUser()" class="btn btn-primary">Создать</button>
+            </div>
+
+            <!-- Поиск пользователей -->
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Поиск пользователей..." onkeyup="searchUsers()">
+                <button onclick="loadUsers()" class="btn btn-secondary">Обновить</button>
+            </div>
+
+            <!-- Список пользователей -->
+            <div class="users-list">
+                <h3>Пользователи</h3>
+                <ul id="usersList" class="list">
+                    <li class="loading">Загрузка...</li>
+                </ul>
+            </div>
+
+            <!-- Статистика -->
+            <div class="stats">
+                <p>Всего пользователей: <span id="usersCount">0</span></p>
+                <p>Всего сообщений: <span id="messagesCount">0</span></p>
+            </div>
+        </div>
+
+        <!-- Правая панель: Чат -->
+        <div class="chat-panel">
+            <!-- Заголовок чата -->
+            <div class="chat-header">
+                <div id="chatHeaderContent">
+                    <h2>Выберите пользователя для начала чата</h2>
+                </div>
+            </div>
+
+            <!-- Окно сообщений -->
+            <div class="messages-container" id="messagesContainer">
+                <div class="welcome-message">
+                    <h3>📱 Добро пожаловать в Vibe Chat!</h3>
+                    <p>Выберите пользователя из списка слева, чтобы начать общение.</p>
+                    <p>Или создайте нового пользователя для начала.</p>
+                </div>
+            </div>
+
+            <!-- Форма отправки сообщения -->
+            <div class="message-input-form" id="messageForm" style="display: none;">
+                <button class="emoji-picker-btn" onclick="toggleEmojiPicker()" title="Выбрать эмодзи" type="button">😊</button>
+                <input 
+                    type="text" 
+                    id="messageInput" 
+                    placeholder="Напишите сообщение..." 
+                    maxlength="500"
+                    onkeypress="if(event.key==='Enter') sendMessage()"
+                >
+                <button onclick="sendMessage()" class="btn btn-primary" id="sendButton">Отправить</button>
+                <button onclick="clearChat()" class="btn btn-secondary" title="Очистить чат">Очистить</button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Emoji Picker (глобально) -->
+    <div class="emoji-picker" id="emojiPicker">
+        <button onclick="addEmoji('😊')" class="emoji-btn" type="button">😊</button>
+        <button onclick="addEmoji('😂')" class="emoji-btn" type="button">😂</button>
+        <button onclick="addEmoji('❤️')" class="emoji-btn" type="button">❤️</button>
+        <button onclick="addEmoji('👍')" class="emoji-btn" type="button">👍</button>
+        <button onclick="addEmoji('🔥')" class="emoji-btn" type="button">🔥</button>
+        <button onclick="addEmoji('😍')" class="emoji-btn" type="button">😍</button>
+        <button onclick="addEmoji('🎉')" class="emoji-btn" type="button">🎉</button>
+        <button onclick="addEmoji('🚀')" class="emoji-btn" type="button">🚀</button>
+        <button onclick="addEmoji('💯')" class="emoji-btn" type="button">💯</button>
+        <button onclick="addEmoji('👌')" class="emoji-btn" type="button">👌</button>
+        <button onclick="addEmoji('😎')" class="emoji-btn" type="button">😎</button>
+        <button onclick="addEmoji('🤔')" class="emoji-btn" type="button">🤔</button>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
