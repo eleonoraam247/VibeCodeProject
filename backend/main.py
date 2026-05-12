@@ -1,5 +1,8 @@
+from pathlib import Path
+
 from fastapi import FastAPI, Depends, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 from database import engine, get_db, Base
 from models import User, Message
@@ -26,11 +29,11 @@ app.add_middleware(
 )
 
 
-# ======================== ROOT ENDPOINT ========================
+# ======================== API INFO ========================
 
-@app.get("/", tags=["Root"])
+@app.get("/api", tags=["Root"])
 def read_root():
-    """Главная страница API"""
+    """Краткая информация об API (UI отдаётся из / как статический frontend)"""
     return {
         "message": "Добро пожаловать в Chat API!",
         "version": "1.0.0",
@@ -189,6 +192,12 @@ def get_stats(db: Session = Depends(get_db)):
         "messages_count": messages_count,
         "api_version": "1.0.0"
     }
+
+
+# Статический frontend (один сервис на Railway/Render: и UI, и API)
+_frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+if _frontend_dir.is_dir():
+    app.mount("/", StaticFiles(directory=str(_frontend_dir), html=True), name="frontend")
 
 
 if __name__ == "__main__":
