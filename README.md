@@ -1,72 +1,124 @@
-# Vibe Coding Final Project — Chat Website
+# Vibe Chat — Vibe Coding Final Project
 
-A simple real-time style chat website built with Python FastAPI for the backend and HTML/CSS/JavaScript for the frontend.
+## Short description
 
-## Project Description
+A chat-style web app where users register, browse a user list, and exchange messages with full conversation history. The backend is **FastAPI + SQLAlchemy + SQLite**; the frontend is **HTML, CSS, and vanilla JavaScript**. Built as the final project for the **Vibe Coding** course.
 
-This application allows users to communicate with each other through a clean, modern web interface. The chat system features user management, real-time messaging, and complete chat history viewing.
+---
 
-The project was developed as a final project for the Vibe Coding course.
+## Live website
+
+**Replace this with your deployed URL after you publish on Railway, Render, or similar.**
+
+- Example format: `https://your-service.up.railway.app`
+- **Live demo:** *[paste your URL here]*
+
+Swagger for the API (when deployed): `{your-deployed-origin}/docs`
+
+---
+
+## YouTube demo video
+
+**Paste the link to your walkthrough/demo video.**
+
+- **Demo:** *[https://www.youtube.com/watch?v=YOUR_VIDEO_ID](https://www.youtube.com/watch?v=YOUR_VIDEO_ID)*
+
+---
+
+## Screenshots
+
+Demo capture (hosted on GitHub):
+
+![Vibe Chat — main interface](https://github.com/user-attachments/assets/a1bb41e4-bfee-4639-a295-74098336eb0a)
+
+You can also add images under `docs/screenshots/` in this repo:
+
+<!--
+![Main interface](docs/screenshots/main.png)
+![Chat view](docs/screenshots/chat.png)
+-->
 
 ---
 
 ## Features
 
-### User Management
-- ✅ Add/Register users
-- ✅ Display all users
-- ✅ Search users by username
+### User management
 
-### Messaging System
-- ✅ Send messages between users
-- ✅ Receive messages
-- ✅ View complete chat history
-- ✅ Search messages
-- ✅ Show conversation between two users
+- Register users (username + email)
+- List all users
+- Search users by name or email
 
-### Frontend
-- ✅ Simple responsive UI
-- ✅ User list panel
-- ✅ Chat window
-- ✅ Message input
-- ✅ Dark mode design
+### Messaging
+
+- Send messages between two users
+- Load conversation history for a pair of users
+- Optional search endpoints for messages (API)
+
+### Interface
+
+- Sidebar with users and stats counter
+- Chat panel with messages and emoji picker input
+- Dark-themed layout
 
 ### Backend
-- ✅ REST API using FastAPI
-- ✅ API endpoints for users and messages
-- ✅ JSON data handling
-- ✅ Swagger API documentation at `/docs`
 
-### Database
-- ✅ SQLite database for storing:
-  - Users
-  - Messages
+- REST API (FastAPI)
+- Automatic OpenAPI docs at `/docs` when the API is running
+- SQLite persistence
 
 ---
 
-## Tech Stack
+## Tech stack
 
-### Backend
-- **Python** - Programming language
-- **FastAPI** - Modern web framework for building APIs
-- **Uvicorn** - ASGI server
-- **SQLAlchemy** - ORM for database operations
-- **SQLite** - Lightweight database
-
-### Frontend
-- **HTML** - Markup language
-- **CSS** - Styling and layout
-- **JavaScript** - Client-side interactivity
-
-### Deployment
-- **Railway** / **Render** - Cloud deployment platforms
-
-### Version Control
-- **GitHub** - Repository hosting
+| Layer      | Technologies                          |
+|-----------|----------------------------------------|
+| Backend   | Python, FastAPI, Uvicorn, SQLAlchemy  |
+| Database  | SQLite                                 |
+| Frontend  | HTML, CSS, JavaScript                  |
+| Deploy    | Railway / Render (see `Procfile`, `railway.json`) |
 
 ---
 
-## Project Structure
+## How to run locally
+
+You need **two terminals**: one for the API, one to serve static files (so the frontend can detect the backend and avoid `file://` issues).
+
+### 1. Backend
+
+```bash
+cd backend
+python -m venv venv
+
+# Windows
+venv\Scripts\activate
+
+# macOS / Linux
+# source venv/bin/activate
+
+pip install -r requirements.txt
+uvicorn main:app --reload --host 127.0.0.1 --port 8000
+```
+
+- API base: **http://127.0.0.1:8000**
+- Docs: **http://127.0.0.1:8000/docs**
+
+### 2. Frontend
+
+```bash
+cd frontend
+python -m http.server 8080
+```
+
+Open **http://127.0.0.1:8080** in your browser. The frontend tries to resolve the API (including common local ports).
+
+### Prerequisites
+
+- Python **3.8+**
+- Git (optional)
+
+---
+
+## Project structure
 
 ```
 chat-app/
@@ -78,7 +130,7 @@ chat-app/
 │   ├── schemas.py           # Pydantic schemas for validation
 │   ├── crud.py              # Create, Read, Update, Delete operations
 │   ├── requirements.txt     # Python dependencies
-│   └── chat.db              # SQLite database file
+│   └── chat.db              # SQLite database file (created at runtime)
 │
 ├── frontend/
 │   ├── index.html           # Main HTML template
@@ -91,98 +143,39 @@ chat-app/
 
 ---
 
-## Installation
-
-### Prerequisites
-- Python 3.8 or higher
-- Node.js (optional, for frontend development)
-- Git
-
-### Backend Setup
-
-1. Navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
-
-2. Create a virtual environment:
-   ```bash
-   python -m venv venv
-   ```
-
-3. Activate the virtual environment:
-   - **Windows:**
-     ```bash
-     venv\Scripts\activate
-     ```
-   - **macOS/Linux:**
-     ```bash
-     source venv/bin/activate
-     ```
-
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-5. Run the FastAPI server:
-   ```bash
-   uvicorn main:app --reload
-   ```
-
-The backend will be available at `http://localhost:8000`
-API documentation: `http://localhost:8000/docs`
-
-### Frontend Setup
-
-1. Open the frontend directory:
-   ```bash
-   cd frontend
-   ```
-
-2. Open `index.html` in your web browser or serve it using a local server:
-   ```bash
-   # Using Python
-   python -m http.server 8080
-   
-   # Using Node.js (if installed)
-   npx http-server
-   ```
-
-The frontend will be available at `http://localhost:8080`
-
----
-
-## API Endpoints
+## API endpoints (summary)
 
 ### Users
-- `GET /users` - Get all users
-- `POST /users` - Create a new user
-- `GET /users/{user_id}` - Get a specific user
-- `GET /users/search/{username}` - Search users by username
+
+- `GET /users` — list users
+- `POST /users` — create user
+- `GET /users/{user_id}` — user detail
+- `GET /users/search/{query}` — search users
 
 ### Messages
-- `GET /messages` - Get all messages
-- `POST /messages` - Send a new message
-- `GET /messages/{message_id}` - Get a specific message
-- `GET /messages/conversation/{user1_id}/{user2_id}` - Get conversation between two users
-- `GET /messages/search/{query}` - Search messages
+
+- `GET /messages` — list messages
+- `POST /messages` — send message
+- `GET /messages/{message_id}` — one message
+- `GET /messages/conversation/{user1_id}/{user2_id}` — conversation between two users
+- `GET /messages/search/{query}` — search message text
+
+Full interactive docs: `/docs` on the running server.
 
 ---
 
 ## Usage
 
-1. **Register Users:** Use the frontend to create new user accounts
-2. **View Users:** See all registered users in the user list panel
-3. **Send Messages:** Select a user and type your message in the input field
-4. **View Chat History:** All messages are displayed in the chat window
-5. **Search:** Use search functionality to find users or specific messages
+1. **Create a user** in the left panel (this becomes “you”).
+2. **Click another user** to open the chat.
+3. **Send messages**; history loads from the API.
 
 ---
 
-## Database Schema
+## Database schema
 
-### Users Table
+### Users
+
 ```sql
 CREATE TABLE users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -192,7 +185,8 @@ CREATE TABLE users (
 )
 ```
 
-### Messages Table
+### Messages
+
 ```sql
 CREATE TABLE messages (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -209,39 +203,21 @@ CREATE TABLE messages (
 
 ## Deployment
 
-### Deploy to Railway
-1. Create a Railway account at [railway.app](https://railway.app)
-2. Connect your GitHub repository
-3. Set environment variables as needed
-4. Deploy from the Railway dashboard
+### Railway
 
-### Deploy to Render
-1. Create a Render account at [render.com](https://render.com)
-2. Create a new Web Service
-3. Connect your GitHub repository
-4. Configure build and start commands
-5. Deploy
+See [DEPLOYMENT_RAILWAY.md](DEPLOYMENT_RAILWAY.md) for step-by-step instructions.
+
+### Render
+
+Create a Web Service, connect this repository, install dependencies from `requirements.txt`, and run Uvicorn similarly to `Procfile`.
 
 ---
 
-## Future Enhancements
+## Future enhancements
 
-- [ ] Real-time messaging with WebSockets
-- [ ] User authentication and login
-- [ ] Message encryption
-- [ ] Group chat functionality
-- [ ] File sharing capabilities
-- [ ] Typing indicators
-- [ ] Message reactions/emojis
-- [ ] User profile customization
-- [ ] Mobile-responsive improvements
-- [ ] Push notifications
-
----
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit pull requests or open issues for any improvements.
+- Real-time messaging (WebSockets)
+- Authentication and sessions
+- Group chats
 
 ---
 
@@ -251,22 +227,9 @@ This project is part of the Vibe Coding course. All rights reserved.
 
 ---
 
-## Contact & Support
-
-For questions or support regarding this project, please reach out through the Vibe Coding course platform.
-
----
-
 ## Acknowledgments
 
 - Vibe Coding for the course and guidance
-- FastAPI documentation and community
-- SQLAlchemy for excellent ORM capabilities
+- [FastAPI](https://fastapi.tiangolo.com/) documentation and community
+- [SQLAlchemy](https://www.sqlalchemy.org/)
 - All contributors and testers
-
----
-
-
-
-<img width="1920" height="2560" alt="image" src="https://github.com/user-attachments/assets/a1bb41e4-bfee-4639-a295-74098336eb0a" />
-
